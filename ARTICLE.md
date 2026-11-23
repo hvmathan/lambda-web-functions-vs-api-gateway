@@ -389,6 +389,11 @@ Lambda Web Functions do **not** make API Gateway obsolete—they make API Gatewa
 
 ---
 
+### Companion Code & Reproducible Benchmark Kit
+
+All runnable code (`validate.js`, Path A CloudFormation + handler, Path B Express Web Function, the zero-dependency SigV4 benchmark client, and the 1-command AWS CloudShell runner) is available on GitHub:
+* **GitHub Repository:** [hvmathan/lambda-web-functions-vs-api-gateway](https://github.com/hvmathan/lambda-web-functions-vs-api-gateway)
+
 ### References
 
 1. [Announcing AWS Lambda Web Functions (AWS News Blog, Oct 12, 2026)](https://aws.amazon.com/blogs/aws/announcing-aws-lambda-web-functions-for-fast-consistent-web-app-performance-anywhere/)
