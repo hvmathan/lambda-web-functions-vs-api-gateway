@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" width="1100" height="520" role="img" aria-label="Measured latency and concurrency benchmark results in us-east-1">
+  <rect width="1100" height="520" rx="16" fill="#0f172a"/>
+  <text x="40" y="44" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Measured Results in us-east-1 (CloudShell → Arm64 Endpoints, SigV4 Enabled)</text>
+  <text x="40" y="68" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="13">Captured Nov 22, 2026 · Keep-Alive HTTPS client · Identical 5-row JSON validation payload</text>
+
+  <!-- Legend -->
+  <rect x="730" y="30" width="16" height="16" rx="4" fill="#3b82f6"/>
+  <text x="754" y="43" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5">API Gateway + Event Lambda</text>
+  <rect x="935" y="30" width="16" height="16" rx="4" fill="#14b8a6"/>
+  <text x="959" y="43" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5">Lambda Web Function</text>
+
+  <!-- PANEL 1: Warm Sequential Latency -->
+  <rect x="36" y="94" width="500" height="190" rx="12" fill="#1e293b" stroke="#334155"/>
+  <text x="56" y="124" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="15.5" font-weight="700">1. Warm Sequential Latency (100 reqs, c = 1)</text>
+  <text x="56" y="144" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Lower is better · Web Function skips gateway hop &amp; event marshaling</text>
+
+  <!-- p50 -->
+  <text x="56" y="178" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="600">p50</text>
+  <rect x="105" y="164" width="285" height="18" rx="4" fill="#3b82f6"/>
+  <text x="398" y="178" fill="#93c5fd" font-family="Consolas, monospace" font-size="12.5" font-weight="700">42.80 ms</text>
+  <rect x="105" y="186" width="31" height="18" rx="4" fill="#14b8a6"/>
+  <text x="144" y="200" fill="#5eead4" font-family="Consolas, monospace" font-size="12.5" font-weight="700">4.63 ms  (9.2x faster)</text>
+
+  <!-- p95 -->
+  <text x="56" y="236" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="600">p95</text>
+  <rect x="105" y="222" width="355" height="18" rx="4" fill="#3b82f6"/>
+  <text x="466" y="236" fill="#93c5fd" font-family="Consolas, monospace" font-size="12.5" font-weight="700">53.25 ms</text>
+  <rect x="105" y="244" width="39" height="18" rx="4" fill="#14b8a6"/>
+  <text x="152" y="258" fill="#5eead4" font-family="Consolas, monospace" font-size="12.5" font-weight="700">5.78 ms  (9.2x faster)</text>
+
+  <!-- PANEL 2: Cold Start / First Request -->
+  <rect x="564" y="94" width="500" height="190" rx="12" fill="#1e293b" stroke="#334155"/>
+  <text x="584" y="124" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="15.5" font-weight="700">2. First Request / Cold Init (End-to-End &amp; Runtime)</text>
+  <text x="584" y="144" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Bare handler initializes faster than Express + 60+ npm modules</text>
+
+  <text x="584" y="178" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="600">Client</text>
+  <rect x="640" y="164" width="215" height="18" rx="4" fill="#3b82f6"/>
+  <text x="863" y="178" fill="#93c5fd" font-family="Consolas, monospace" font-size="12.5" font-weight="700">358.64 ms (70 MB)</text>
+  <rect x="640" y="186" width="318" height="18" rx="4" fill="#14b8a6"/>
+  <text x="965" y="200" fill="#5eead4" font-family="Consolas, monospace" font-size="12.5" font-weight="700">530.87 ms</text>
+
+  <text x="584" y="236" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="600">CW Init</text>
+  <rect x="640" y="222" width="110" height="18" rx="4" fill="#3b82f6"/>
+  <text x="758" y="236" fill="#93c5fd" font-family="Consolas, monospace" font-size="12.5" font-weight="700">155.81 ms Init Duration</text>
+  <rect x="640" y="244" width="245" height="18" rx="4" fill="#14b8a6"/>
+  <text x="893" y="258" fill="#5eead4" font-family="Consolas, monospace" font-size="12.5" font-weight="700">379 ms (154 MB RSS)</text>
+
+  <!-- PANEL 3: Concurrent Burst Success Rate -->
+  <rect x="36" y="304" width="1028" height="188" rx="12" fill="#1e293b" stroke="#334155"/>
+  <text x="56" y="334" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="15.5" font-weight="700">3. Concurrency = 20 Burst Behavior (Default 10-Concurrency AWS Sandbox Account)</text>
+  <text x="56" y="354" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Event Lambda locks 1 environment per in-flight request (capped at 10 streams → HTTP 503s); Web Function multiplexes concurrent requests</text>
+
+  <!-- Sub-box Left: CPU-light burst -->
+  <rect x="56" y="370" width="475" height="104" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="72" y="393" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">200-Request Burst (c = 20, pure JSON validation)</text>
+  <text x="72" y="418" fill="#93c5fd" font-family="Consolas, monospace" font-size="12">API GW + EventFn:  83 / 200 OK (41.5%) · 117 HTTP 503s · p95 183.4ms</text>
+  <text x="72" y="442" fill="#5eead4" font-family="Consolas, monospace" font-size="12">Web Function:     200 / 200 OK (100%)  ·   0 HTTP 503s · p95  46.3ms</text>
+  <text x="72" y="462" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">CloudWatch streams created: 10 (Event Lambda cap) vs 7 (Web Function)</text>
+
+  <!-- Sub-box Right: 75ms I/O wait burst -->
+  <rect x="555" y="370" width="489" height="104" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="571" y="393" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">120-Request I/O Burst (c = 20, +75 ms async wait)</text>
+  <text x="571" y="418" fill="#93c5fd" font-family="Consolas, monospace" font-size="12">API GW + EventFn:  22 / 120 OK (18.3%) ·  98 HTTP 503s · p50  97.6ms</text>
+  <text x="571" y="442" fill="#5eead4" font-family="Consolas, monospace" font-size="12">Web Function:     120 / 120 OK (100%)  ·   0 HTTP 503s · p50  83.0ms</text>
+  <text x="571" y="462" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Web Function multiplexed concurrent async waits inside the same process</text>
+</svg>

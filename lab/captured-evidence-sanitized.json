@@ -1,0 +1,58 @@
+{
+  "capturedAtUtc": "2026-11-22T13:28:45.180Z",
+  "region": "us-east-1",
+  "environment": "AWS CloudShell (Amazon Linux 2023, aws-cli/2.41.0, Node.js v20.20.2 client)",
+  "sanitizedEndpoints": {
+    "webFunctionDomainPattern": "<ENDPOINT_ID>.<SHARD>.lambda-web.us-east-1.on.aws",
+    "apiGatewayUrlPattern": "https://<API_ID>.execute-api.us-east-1.amazonaws.com"
+  },
+  "deployComparison": {
+    "webFunction": {
+      "command": "aws lambda-web deploy --name cb-speedrun-web-fn --code ./web-fn --create --auth-type IamAuth --env NODE_ENV=production --region us-east-1",
+      "deployTimeSeconds": 24,
+      "runtimeVersion": "nodejs24.x:nodejs.web24.v38",
+      "architecture": "arm64"
+    },
+    "apiGatewayEventLambda": {
+      "command": "aws cloudformation deploy --stack-name cb-speedrun-apigw-stack ...",
+      "deployTimeSeconds": 66,
+      "runtime": "nodejs22.x",
+      "architecture": "arm64",
+      "memoryMb": 512
+    }
+  },
+  "authChecks": {
+    "apigwUnsignedStatus": 403,
+    "webFnUnsignedStatus": 403,
+    "webFnSignedWithoutContentSha256Status": 403,
+    "apigwHandlerSawIamContext": true,
+    "webFnExpressSawAuthorizationHeader": false
+  },
+  "benchmarks": {
+    "firstSignedRequestColdMs": {
+      "apigw": 358.64,
+      "webFn": 530.87
+    },
+    "warmSequential100": {
+      "apigw": { "ok": "100/100", "minMs": 17.41, "p50Ms": 42.80, "p95Ms": 53.25, "p99Ms": 54.57, "avgMs": 39.40 },
+      "webFn": { "ok": "100/100", "minMs": 3.96, "p50Ms": 4.63, "p95Ms": 5.78, "p99Ms": 17.95, "avgMs": 5.00 }
+    },
+    "concurrentBurst200_c20": {
+      "apigw": { "ok": "83/200", "http503": 117, "p50Ms": 41.35, "p95Ms": 183.36, "p99Ms": 214.41, "logStreams": 10 },
+      "webFn": { "ok": "200/200", "http503": 0, "p50Ms": 8.61, "p95Ms": 46.34, "p99Ms": 57.17, "logStreams": 7 }
+    },
+    "concurrentIoWait120_c20_75ms": {
+      "apigw": { "ok": "22/120", "http503": 98, "p50Ms": 97.59, "p95Ms": 103.68, "peakInFlightPerEnv": 1 },
+      "webFn": { "ok": "120/120", "http503": 0, "p50Ms": 83.01, "p95Ms": 98.58, "peakInFlightPerEnv": 2 }
+    }
+  },
+  "cloudWatchTelemetry": {
+    "apigwColdInitReport": "Duration: 4.43 ms, Billed Duration: 161 ms, Memory Size: 512 MB, Max Memory Used: 70 MB, Init Duration: 155.81 ms",
+    "apigwWarmDurationRangeMs": "1.76 - 4.10 ms (Billed 2 - 5 ms)",
+    "webFnInitReports": [
+      { "totalDurationMs": 379, "totalCpuTimeMs": 298, "maxMemoryUsageMb": 154 },
+      { "totalDurationMs": 388, "totalCpuTimeMs": 299, "maxMemoryUsageMb": 157 },
+      { "totalDurationMs": 359, "totalCpuTimeMs": 287, "maxMemoryUsageMb": 158 }
+    ]
+  }
+}

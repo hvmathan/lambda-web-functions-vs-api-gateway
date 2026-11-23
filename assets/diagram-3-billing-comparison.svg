@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 430" width="1100" height="430" role="img" aria-label="Monthly AWS cost comparison at 10 million requests in us-east-1">
+  <rect width="1100" height="430" rx="16" fill="#0f172a"/>
+  <text x="40" y="44" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Why Active-CPU Billing Changes the Cost Curve (10M Requests/Month, us-east-1 Arm64)</text>
+  <text x="40" y="68" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="13">Calculated from official AWS us-east-1 pricing + our measured CloudWatch memory/CPU telemetry (excludes Free Tier &amp; egress)</text>
+
+  <!-- Scenario A -->
+  <rect x="36" y="96" width="500" height="304" rx="12" fill="#1e293b" stroke="#334155"/>
+  <text x="58" y="128" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Scenario A: Fast JSON Validation (3 ms total / 2 ms CPU)</text>
+  <text x="58" y="149" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">API Gateway's $1.00/M request fee dominates short invocations</text>
+
+  <rect x="58" y="172" width="456" height="92" rx="8" fill="#0f172a" stroke="#3b82f6"/>
+  <text x="76" y="196" fill="#93c5fd" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" font-weight="700">API Gateway HTTP API + Event Lambda (512 MB)</text>
+  <text x="76" y="218" fill="#cbd5e1" font-family="Consolas, monospace" font-size="11.5">$10.00 (API GW) + $2.00 (Lambda req) + $0.20 (duration)</text>
+  <text x="76" y="246" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">$12.20 / month</text>
+
+  <rect x="58" y="280" width="456" height="98" rx="8" fill="#0f172a" stroke="#14b8a6"/>
+  <text x="76" y="304" fill="#5eead4" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" font-weight="700">Lambda Web Function (~160 MB observed RSS, 1 warm env)</text>
+  <text x="76" y="326" fill="#cbd5e1" font-family="Consolas, monospace" font-size="11.5">$3.00 (req) + $0.55 (active CPU) + $1.52 (30-day memory)</text>
+  <text x="76" y="356" fill="#34d399" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">$5.07 / month  (-58%)</text>
+
+  <!-- Scenario B -->
+  <rect x="564" y="96" width="500" height="304" rx="12" fill="#1e293b" stroke="#334155"/>
+  <text x="586" y="128" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Scenario B: Downstream DB / LLM Wait (200 ms / 5 ms CPU)</text>
+  <text x="586" y="149" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Event Lambda bills 195 ms of idle socket wait; Web Function bills 0 CPU</text>
+
+  <rect x="586" y="172" width="456" height="92" rx="8" fill="#0f172a" stroke="#3b82f6"/>
+  <text x="604" y="196" fill="#93c5fd" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" font-weight="700">API Gateway HTTP API + Event Lambda (512 MB)</text>
+  <text x="604" y="218" fill="#cbd5e1" font-family="Consolas, monospace" font-size="11.5">$10.00 (API GW) + $2.00 (req) + $13.33 (wall-clock wait!)</text>
+  <text x="604" y="246" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">$25.33 / month</text>
+
+  <rect x="586" y="280" width="456" height="98" rx="8" fill="#0f172a" stroke="#14b8a6"/>
+  <text x="604" y="304" fill="#5eead4" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" font-weight="700">Lambda Web Function (~200 MB RSS, concurrent waits)</text>
+  <text x="604" y="326" fill="#cbd5e1" font-family="Consolas, monospace" font-size="11.5">$3.00 (req) + $1.38 (5 ms active CPU) + $1.90 (memory)</text>
+  <text x="604" y="356" fill="#34d399" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">$6.28 / month  (-75%)</text>
+</svg>

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" width="1100" height="540" role="img" aria-label="Architecture and IAM SigV4 comparison between API Gateway HTTP API + Event Lambda and AWS Lambda Web Functions">
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L9,3.5 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L9,3.5 z" fill="#0d9488"/>
+    </marker>
+    <marker id="arrowSlate" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L9,3.5 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="540" rx="16" fill="#0f172a"/>
+  <text x="40" y="44" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Same Endpoint (POST /validate) — Two Serverless Execution &amp; Auth Models</text>
+  <text x="40" y="68" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="13">Tested in us-east-1 on Arm64 · Both protected with AWS IAM Signature Version 4 (SigV4)</text>
+
+  <!-- PATH A LANE -->
+  <rect x="32" y="90" width="1036" height="192" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="48" y="104" width="290" height="24" rx="12" fill="#1d4ed8"/>
+  <text x="193" y="120" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.8">PATH A · API GATEWAY HTTP API + EVENT LAMBDA</text>
+
+  <!-- Caller A -->
+  <rect x="52" y="148" width="175" height="92" rx="10" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="139" y="175" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">HTTP Client</text>
+  <text x="139" y="196" text-anchor="middle" fill="#93c5fd" font-family="Consolas, monospace" font-size="11">SigV4: execute-api</text>
+  <text x="139" y="216" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Standard signed POST</text>
+
+  <!-- Arrow 1A -->
+  <line x1="227" y1="194" x2="305" y2="194" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <text x="266" y="184" text-anchor="middle" fill="#93c5fd" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">HTTPS</text>
+
+  <!-- API GW Box -->
+  <rect x="313" y="142" width="235" height="104" rx="10" fill="#172554" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="430" y="168" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Amazon API Gateway</text>
+  <text x="430" y="188" text-anchor="middle" fill="#bfdbfe" font-family="Segoe UI, Arial, sans-serif" font-size="11.5">Validates IAM / JWT at edge</text>
+  <text x="430" y="207" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Serializes HTTP → v2.0 JSON event</text>
+  <text x="430" y="226" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Custom domains, stages, throttling</text>
+
+  <!-- Arrow 2A -->
+  <line x1="548" y1="194" x2="646" y2="194" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <text x="597" y="184" text-anchor="middle" fill="#93c5fd" font-family="Consolas, monospace" font-size="10.5">Invoke (event)</text>
+
+  <!-- Event Lambda Box -->
+  <rect x="654" y="142" width="240" height="104" rx="10" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="774" y="168" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Event Lambda (nodejs22.x)</text>
+  <text x="774" y="188" text-anchor="middle" fill="#bfdbfe" font-family="Consolas, monospace" font-size="11">exports.handler(event)</text>
+  <text x="774" y="207" text-anchor="middle" fill="#fbbf24" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">1 request per environment</text>
+  <text x="774" y="226" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Reads requestContext.authorizer.iam</text>
+
+  <!-- Metrics Pill A -->
+  <rect x="912" y="148" width="138" height="92" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="981" y="172" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5" font-weight="700">WARM p50</text>
+  <text x="981" y="196" text-anchor="middle" fill="#60a5fa" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">42.80 ms</text>
+  <text x="981" y="218" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">Billed: Wall-clock</text>
+  <text x="981" y="232" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">+ $1/M API GW</text>
+
+  <!-- PATH B LANE -->
+  <rect x="32" y="302" width="1036" height="214" rx="12" fill="#1e293b" stroke="#14b8a6" stroke-width="1.5"/>
+  <rect x="48" y="316" width="295" height="24" rx="12" fill="#0f766e"/>
+  <text x="195" y="332" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.8">PATH B · AWS LAMBDA WEB FUNCTION (EXPRESS)</text>
+
+  <!-- Caller B -->
+  <rect x="52" y="362" width="195" height="104" rx="10" fill="#0f172a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="149" y="387" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">HTTP Client</text>
+  <text x="149" y="407" text-anchor="middle" fill="#5eead4" font-family="Consolas, monospace" font-size="11">SigV4: lambda</text>
+  <text x="149" y="427" text-anchor="middle" fill="#fbbf24" font-family="Consolas, monospace" font-size="10.5">+ x-amz-content-sha256</text>
+  <text x="149" y="446" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">(Required or 403 Forbidden)</text>
+
+  <!-- Optional CloudFront Note -->
+  <rect x="268" y="476" width="356" height="28" rx="6" fill="#0f172a" stroke="#475569" stroke-dasharray="4 3"/>
+  <text x="446" y="494" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="11">Optional Front Door: CloudFront + OAC + AWS WAF (adds custom domain, HTTP/2 &amp; L7 WAF)</text>
+
+  <!-- Arrow 1B -->
+  <line x1="247" y1="414" x2="325" y2="414" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arrowTeal)"/>
+  <text x="286" y="403" text-anchor="middle" fill="#5eead4" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">HTTPS/1.1</text>
+
+  <!-- Web Function Endpoint -->
+  <rect x="333" y="362" width="235" height="104" rx="10" fill="#134e4a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="450" y="387" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Web Function Endpoint</text>
+  <text x="450" y="407" text-anchor="middle" fill="#99f6e4" font-family="Consolas, monospace" font-size="10.5">*.lambda-web.us-east-1.on.aws</text>
+  <text x="450" y="427" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="11">Verifies IamAuth &amp; strips Auth hdr</text>
+  <text x="450" y="446" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Streams raw HTTP to 0.0.0.0:3000</text>
+
+  <!-- Arrow 2B -->
+  <line x1="568" y1="414" x2="646" y2="414" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arrowTeal)"/>
+  <text x="607" y="403" text-anchor="middle" fill="#5eead4" font-family="Consolas, monospace" font-size="10.5">Native HTTP</text>
+
+  <!-- Web Function Runtime -->
+  <rect x="654" y="362" width="240" height="104" rx="10" fill="#0f172a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="774" y="387" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Express Server (nodejs24.x)</text>
+  <text x="774" y="407" text-anchor="middle" fill="#99f6e4" font-family="Consolas, monospace" font-size="11">app.post('/validate', ...)</text>
+  <text x="774" y="427" text-anchor="middle" fill="#34d399" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Up to 64 concurrent reqs / env</text>
+  <text x="774" y="446" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">Long-lived process; scales to zero</text>
+
+  <!-- Metrics Pill B -->
+  <rect x="912" y="368" width="138" height="92" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="981" y="392" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5" font-weight="700">WARM p50</text>
+  <text x="981" y="416" text-anchor="middle" fill="#2dd4bf" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">4.63 ms</text>
+  <text x="981" y="438" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">Billed: Active CPU</text>
+  <text x="981" y="452" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="10.5">+ shared memory</text>
+</svg>
